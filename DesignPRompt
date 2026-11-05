@@ -1,0 +1,777 @@
+# Build RageLab — A Playful, Sequential Ragebait Experiment Website
+
+Act as a senior frontend developer and UI/UX designer. Build a complete, polished, responsive website called **RageLab**, using the attached mobile screenshots as the primary visual references.
+
+The website should look like a carefully handcrafted product—not a generic AI-generated website.
+
+## 1. Product Overview
+
+RageLab is an entertaining website featuring six sequential internet experiments designed to test users’ patience, intelligence, curiosity, and decision-making.
+
+The user journey:
+
+**Curiosity → Experiment → Frustration → Completion → Next Experiment → Final Betrayal**
+
+The most important requirement:
+
+**Users must NOT be allowed to choose which experiment they want to play.**
+
+The experiments are presented sequentially:
+- The user enters the lab.
+- Experiment 01 starts.
+- After completing Experiment 01, Experiment 02 unlocks.
+- After completing Experiment 02, Experiment 03 unlocks.
+- This continues until all six experiments are completed.
+- Users cannot skip ahead or directly access locked experiments.
+- The experience should feel like a journey through a mischievous laboratory.
+
+The goal is to make users curious enough to continue.
+
+---
+
+## 2. Technology Stack
+
+Use the following stack:
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- React Router
+- Framer Motion
+- Lucide React icons
+
+Frontend only.
+
+Do NOT introduce:
+- Backend APIs
+- Authentication
+- Database
+- Server-side functionality
+- API keys
+- Unnecessary external services
+
+Use LocalStorage to persist:
+- Current experiment progress
+- Completed experiments
+- Experiment results
+- User preferences where useful
+
+The application must work entirely in the browser.
+
+---
+
+## 3. Reference Images — CRITICAL
+
+I will attach several RageLab UI screenshots generated during the design process.
+
+Treat these images as the primary visual references for:
+- Layout
+- Typography
+- Color palette
+- Spacing
+- Button design
+- Illustrations
+- Progress indicators
+- Experiment cards
+- Result screens
+- Visual hierarchy
+- Overall personality
+
+Do NOT simply embed the screenshots as backgrounds or images.
+
+Recreate the interface using real React components, CSS, Tailwind, and actual interactive elements.
+
+The screenshots are references for the design, not website assets.
+
+For future experiment pages, preserve the same design language while creating unique layouts for each experiment.
+
+Do not force every page to look identical.
+
+---
+
+## 4. Design System
+
+### Visual direction
+
+The website should feel:
+- Playful
+- Mischievous
+- Modern
+- Minimal but interesting
+- Slightly chaotic
+- Premium and polished
+- Interactive
+
+Avoid:
+- Generic AI-generated UI
+- Excessive glassmorphism
+- Excessive gradients
+- Huge empty spaces
+- Repetitive generic cards
+- Too many rounded rectangles
+- Overusing emojis
+- Random decorative elements
+- Excessive glowing effects
+- Stock photos
+- Unnecessary animations
+
+Use visual elements intentionally.
+
+### Color palette
+
+Use these colors:
+
+- Background: `#111114`
+- Surface: `#1A1A1F`
+- Primary Orange: `#FF5B35`
+- Secondary Orange: `#FF7A24`
+- Acid Yellow: `#E8FF5B`
+- Purple: `#8B70FF`
+- Primary Text: `#F5F2EC`
+- Secondary Text: `#A5A3AA`
+- Border: `#303036`
+
+Orange should be the primary accent.
+
+Yellow and purple may be used selectively to distinguish experiments.
+
+### Typography
+
+Use:
+- Space Grotesk for headings
+- Inter or Geist for body text
+- JetBrains Mono for small labels and experiment metadata
+
+Typography should be bold, modern, and readable.
+
+### Branding
+
+Brand name: **RageLab**
+
+Logo concept:
+- Minimal laboratory flask icon
+- Orange liquid inside the flask
+- RageLab wordmark
+- “Rage” in white
+- “Lab” in orange
+
+Create a reusable logo component.
+
+---
+
+## 5. Mobile-First Design — Mandatory
+
+The primary audience comes from Instagram and mobile browsers.
+
+Design mobile FIRST.
+
+Prioritize:
+- 375px
+- 390px
+- 430px
+
+Then optimize:
+- 768px tablet
+- 1024px laptop
+- 1440px desktop
+
+Do NOT simply shrink a desktop design.
+
+Create a proper mobile experience.
+
+Requirements:
+- No horizontal scrolling
+- Touch-friendly controls
+- Buttons should be easy to tap
+- Text must remain readable
+- No tiny game elements
+- Proper spacing between interactive elements
+- Illustrations should scale appropriately
+- Avoid excessive content above the fold
+- Maintain visual hierarchy on smaller screens
+
+---
+
+## 6. Homepage
+
+Route: `/`
+
+The homepage should match the attached RageLab homepage reference.
+
+### Header
+
+Include:
+- RageLab logo
+- Minimal navigation
+- Hamburger menu on mobile
+
+Keep the header clean and compact.
+
+### Hero section
+
+Use the heading:
+
+**Your patience  
+is about to be  
+tested.**
+
+Highlight “tested.” in orange.
+
+Supporting text:
+
+“Six experiments. Zero productive outcomes. A questionable use of your free time.”
+
+Primary CTA:
+
+**Enter the Lab →**
+
+Secondary CTA:
+
+**Explore the Lab**
+
+The primary CTA is the most important element.
+
+### Hero illustration
+
+Create a playful laboratory flask illustration with orange liquid and a mischievous face.
+
+Use:
+- CSS
+- SVG
+- Lucide icons where appropriate
+- Custom illustrations if available
+
+Do not use random stock imagery.
+
+### Experiment progression
+
+Below the hero, show a simple visual progression indicating that the lab contains six experiments.
+
+Example:
+
+`01 → 02 → 03 → 04 → 05 → 06`
+
+This is visual information only.
+
+Users must NOT be able to click individual experiment numbers.
+
+### Homepage behavior
+
+When the user clicks **Enter the Lab**:
+- If no experiment has been completed, open Experiment 01.
+- If progress exists, resume the current experiment.
+- Do not allow the user to select experiments manually.
+
+Do not display a grid of selectable experiments.
+
+The homepage should communicate that the experience unfolds one experiment at a time.
+
+---
+
+## 7. Sequential Experiment System
+
+This is the most important application architecture requirement.
+
+There are six experiments:
+
+1. Don’t Click the Button
+2. Impossible IQ Test
+3. Button That Won’t Cooperate
+4. Fake Loading Simulator
+5. Guess the Meme Dialogue
+6. Betrayal Quiz
+
+Create a centralized experiment progression system.
+
+The application must track:
+- Current experiment index
+- Completed experiments
+- Whether the current experiment has started
+- Whether the current experiment has been completed
+- Experiment results
+
+Suggested state structure:
+
+```ts
+interface RageLabProgress {
+  currentExperiment: number;
+  completedExperiments: number[];
+  experimentResults: Record<number, unknown>;
+}
+```
+
+Persist progress in LocalStorage.
+
+Users should not be able to:
+- Skip experiments
+- Access locked experiments through URLs
+- Complete an experiment without fulfilling its completion condition
+- Accidentally lose progress on refresh
+
+Allow users to resume progress after refreshing the browser.
+
+Create reusable components:
+
+- `ExperimentHeader`
+- `ExperimentProgress`
+- `ExperimentLayout`
+- `ExperimentResult`
+- `ExperimentCompletion`
+- `NextExperimentButton`
+
+Each experiment should have its own unique visual personality while preserving RageLab’s overall brand.
+
+---
+
+## 8. Experiment 01 — Don’t Click the Button
+
+Route:
+
+`/experiments/dont-click`
+
+Use the attached Experiment 01 screenshot as the visual reference.
+
+### Intro screen
+
+Display:
+- RageLab logo
+- Experiment progress
+- Experiment 01 label
+- Heading: “Don’t Click the Button”
+- Subtitle: “A simple test of self-control. Just don’t click it. It’s that easy… right?”
+- Large red button illustration
+- Timer
+- Warning message
+
+Warning:
+
+“You’ll fail if you click the button.”
+
+### Gameplay
+
+The player must survive without clicking the button for 15 seconds.
+
+Requirements:
+- Countdown timer
+- Large, visually tempting button
+- Button reacts when hovered or touched
+- Clicking the button immediately ends the experiment
+- Track time survived
+- Track number of clicks
+- Show result after success or failure
+
+The button should be genuinely interactive.
+
+### Failure screen
+
+If the user clicks the button:
+
+- Display a funny failure message
+- Show time survived
+- Show click count
+- Use a humorous illustration
+- Provide a retry option
+
+Example:
+
+“You Clicked!
+
+Told you not to.
+
+Patience level: Critical.”
+
+### Success screen
+
+If the user survives 15 seconds:
+
+- Show success illustration
+- Display completion status
+- Show time taken
+- Show clicks: 0
+- Display a funny congratulatory message
+- Unlock Experiment 02
+
+Example:
+
+“You didn’t click it!
+
+Surprisingly, some people do… but not you. Good job!”
+
+Primary CTA:
+
+**Next Experiment →**
+
+Do not allow the user to advance before completing the experiment.
+
+---
+
+## 9. Experiment 02 — Impossible IQ Test
+
+Route:
+
+`/experiments/iq-test`
+
+Use the attached Experiment 02 screenshot as the visual reference.
+
+Create a unique screen using:
+- Orange accents
+- Acid yellow highlights
+- Playful brain illustration
+- Question marks
+- Bold typography
+
+Intro:
+
+“Questions so simple, you’ll somehow get them wrong.”
+
+Show:
+- Experiment progress
+- Experiment title
+- Brief description
+- Brain illustration
+- Difficulty
+- Estimated duration
+- Start Experiment CTA
+
+### Gameplay
+
+Implement two short mini-tests.
+
+Requirements:
+- Multiple-choice questions
+- Four answer options where appropriate
+- Clear question progression
+- Funny feedback
+- Track score
+- Show a final result screen
+
+Questions should be simple but contain playful trick logic.
+
+Do not make the test genuinely unfair or impossible to complete.
+
+The experience should be humorous.
+
+After completing the experiment, unlock Experiment 03.
+
+---
+
+## 10. Experiment 03 — Button That Won’t Cooperate
+
+Route:
+
+`/experiments/button-game`
+
+Concept:
+
+“Just click the button. How hard can it be?”
+
+Create a game in which the button behaves mischievously.
+
+Possible behavior:
+- Button moves when the user approaches it
+- Button changes position
+- Button displays misleading text
+- Button occasionally stays still
+- Button becomes easier after several attempts
+
+Requirements:
+- Touch-friendly on mobile
+- Do not make the game impossible
+- Keep interaction playful
+- Track attempts
+- Show a completion screen
+
+Unlock Experiment 04 after completion.
+
+---
+
+## 11. Experiment 04 — Fake Loading Simulator
+
+Route:
+
+`/experiments/fake-loading`
+
+Concept:
+
+“Experience the joy of waiting for absolutely nothing.”
+
+Create a fake loading experience.
+
+Possible behavior:
+- Progress bar
+- Fake loading percentages
+- Funny loading messages
+- Progress slowing near completion
+- Unexpected completion message
+
+Do not freeze the browser or create real performance problems.
+
+Keep it entertaining and interactive.
+
+Unlock Experiment 05 after completion.
+
+---
+
+## 12. Experiment 05 — Guess the Meme Dialogue
+
+Route:
+
+`/experiments/meme-dialogue`
+
+Concept:
+
+“Three memes. Four options. Prove you actually know the Internet.”
+
+Requirements:
+- Three rounds
+- Meme image or illustration
+- Four answer choices per round
+- Correct and incorrect feedback
+- Score tracking
+- Funny final result
+
+For meme imagery, use assets that are safe to use or create original meme-style illustrations.
+
+Do not rely on copyrighted images unless appropriately supplied.
+
+Unlock Experiment 06 after completion.
+
+---
+
+## 13. Experiment 06 — Betrayal Quiz
+
+Route:
+
+`/experiments/betrayal-quiz`
+
+This is the final experiment.
+
+Concept:
+
+“Answer honestly. We’ll use it against you.”
+
+Requirements:
+- Funny personality questions
+- Track user responses
+- Generate a personalized humorous roast
+- Use answers to create the final result
+- Display final completion screen
+
+Example tone:
+
+“You completed all six experiments.
+
+Your patience is questionable, your curiosity is dangerous, and your decision-making deserves investigation.”
+
+Make the final result feel personalized based on the player’s answers and behavior.
+
+The roast should be playful, not genuinely insulting.
+
+---
+
+## 14. Navigation and Routing
+
+Use React Router.
+
+Suggested routes:
+
+```text
+/
+ /experiments/dont-click
+ /experiments/iq-test
+ /experiments/button-game
+ /experiments/fake-loading
+ /experiments/meme-dialogue
+ /experiments/betrayal-quiz
+ /about
+```
+
+Routes should be protected by progression logic.
+
+If a user attempts to visit an experiment they have not unlocked:
+- Redirect them to the current experiment or homepage.
+- Do not reveal locked experiment gameplay.
+
+The experiment progression system should be the source of truth.
+
+---
+
+## 15. Animations and Interactions
+
+Use Framer Motion selectively.
+
+Include:
+- Smooth page transitions
+- Button hover and press feedback
+- Progress animations
+- Subtle illustration motion
+- Experiment completion animations
+- Small playful micro-interactions
+
+Animations should:
+- Feel polished
+- Be fast
+- Avoid excessive motion
+- Work well on mobile
+- Respect reduced-motion preferences
+
+Do not animate everything.
+
+---
+
+## 16. Component Architecture
+
+Create a clean and maintainable structure.
+
+Suggested folders:
+
+```text
+src/
+  components/
+    Logo.tsx
+    Header.tsx
+    ProgressTracker.tsx
+    PrimaryButton.tsx
+    ExperimentLayout.tsx
+    ResultCard.tsx
+    ExperimentCard.tsx
+
+  pages/
+    HomePage.tsx
+    Experiment01.tsx
+    Experiment02.tsx
+    Experiment03.tsx
+    Experiment04.tsx
+    Experiment05.tsx
+    Experiment06.tsx
+    AboutPage.tsx
+
+  hooks/
+    useProgress.ts
+    useLocalStorage.ts
+
+  context/
+    ProgressContext.tsx
+
+  data/
+    experiments.ts
+    questions.ts
+
+  utils/
+    progression.ts
+
+  styles/
+    globals.css
+
+  App.tsx
+  main.tsx
+```
+
+Keep the code modular.
+
+Avoid putting the entire application into one component.
+
+---
+
+## 17. Accessibility and Quality
+
+Requirements:
+- Semantic HTML
+- Keyboard accessibility
+- Visible focus indicators
+- Appropriate color contrast
+- Accessible button labels
+- Touch-friendly interactions
+- Responsive layouts
+- Reduced-motion support
+- Clean TypeScript types
+- No console errors
+- No broken routes
+- No unnecessary dependencies
+
+---
+
+## 18. Netlify Deployment
+
+The website will be deployed on Netlify.
+
+Configure:
+- Vite build
+- Build command: `npm run build`
+- Publish directory: `dist`
+- SPA redirect fallback
+
+Ensure direct route refreshes work on Netlify.
+
+---
+
+## 19. Development Approach
+
+Build the project incrementally.
+
+### Phase 1 — Foundation
+- Create project structure
+- Setup React, TypeScript, Vite, Tailwind
+- Setup routing
+- Create design system
+- Create logo and shared components
+
+### Phase 2 — Homepage
+- Build the complete homepage
+- Match the attached mobile reference
+- Add responsive desktop layout
+- Implement Enter the Lab behavior
+
+### Phase 3 — Experiment progression
+- Create progression logic
+- Add LocalStorage persistence
+- Implement locked experiment handling
+- Add progress tracker
+
+### Phase 4 — Experiment 01
+- Build intro screen
+- Build gameplay
+- Build success/failure results
+- Test completion logic
+
+### Phase 5 — Remaining experiments
+- Build each experiment incrementally
+- Keep consistent design language
+- Add unique visuals and interactions
+
+### Phase 6 — Final polish
+- Responsive testing
+- Accessibility
+- Animations
+- Netlify deployment configuration
+
+Do not rush all six experiments into a single giant component.
+
+---
+
+## 20. Final Design Instructions
+
+The attached images represent the intended RageLab visual identity.
+
+The final website should feel like:
+
+**A polished, mischievous internet experiment designed to tempt people into continuing.**
+
+Prioritize:
+1. Mobile-first UI
+2. Visual consistency with the references
+3. Clear sequential user journey
+4. Strong typography and hierarchy
+5. Interesting but restrained illustrations
+6. Real interactive behavior
+7. Clean architecture
+8. Fast performance
+
+Start by implementing the foundation and homepage.
+
+Do not build all six experiments immediately.
+
+The first milestone is a fully polished, responsive homepage and working sequential progression structure. Experiment gameplay can be implemented one at a time afterward.
+
+Before finishing, test the homepage at 375px, 390px, 430px, 768px, and 1440px.

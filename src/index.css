@@ -1,0 +1,192 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  body {
+    background-color: #111114;
+    color: #F5F2EC;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #111114;
+}
+::-webkit-scrollbar-thumb {
+  background: #303036;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FF5B35;
+}
+
+/* Neon glow bottom wave effect */
+.bottom-glow-wave {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  pointer-events: none;
+  z-index: 10;
+  overflow: hidden;
+}
+
+/* Torn paper edge SVG clip / mask utilities */
+.torn-edge {
+  clip-path: polygon(
+    0% 4px, 3% 0px, 7% 5px, 11% 1px, 16% 5px, 20% 2px, 25% 6px, 29% 1px, 
+    34% 5px, 38% 0px, 43% 4px, 48% 1px, 52% 6px, 57% 2px, 62% 5px, 66% 0px,
+    71% 4px, 76% 1px, 81% 5px, 85% 2px, 90% 6px, 95% 1px, 100% 4px,
+    100% calc(100% - 4px), 96% 100%, 92% calc(100% - 5px), 87% calc(100% - 1px), 
+    82% calc(100% - 6px), 77% calc(100% - 2px), 72% calc(100% - 5px), 67% 100%,
+    62% calc(100% - 4px), 58% calc(100% - 1px), 53% calc(100% - 6px), 48% calc(100% - 2px),
+    43% calc(100% - 5px), 39% 100%, 34% calc(100% - 4px), 30% calc(100% - 1px),
+    25% calc(100% - 6px), 20% calc(100% - 2px), 15% calc(100% - 5px), 10% 100%,
+    6% calc(100% - 3px), 2% calc(100% - 6px), 0% calc(100% - 2px)
+  );
+}
+
+.torn-edge-paper {
+  background-color: #E8E2D2;
+  color: #111114;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+.torn-edge-dark {
+  background-color: #1E1E24;
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.4);
+}
+
+
+/* Character Hand & Body Animations */
+@keyframes orangeBeckonHand {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  30% {
+    transform: translateY(-9px) rotate(-8deg) scale(1.09);
+  }
+  65% {
+    transform: translateY(-4px) rotate(5deg) scale(1.04);
+  }
+}
+
+@keyframes purplePleadLeft {
+  0%, 100% {
+    transform: rotate(-12deg) translateY(0px);
+  }
+  50% {
+    transform: rotate(10deg) translateY(-8px);
+  }
+}
+
+@keyframes purplePleadRight {
+  0%, 100% {
+    transform: rotate(10deg) translateY(-8px);
+  }
+  50% {
+    transform: rotate(-12deg) translateY(0px);
+  }
+}
+
+.animate-orange-hand {
+  transform-box: fill-box;
+  transform-origin: 20% 80%;
+  animation: orangeBeckonHand 1.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-purple-hand-left {
+  transform-box: fill-box;
+  transform-origin: 50% 90%;
+  animation: purplePleadLeft 1.0s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-purple-hand-right {
+  transform-box: fill-box;
+  transform-origin: 50% 90%;
+  animation: purplePleadRight 1.0s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes characterBob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-char-bob-1 {
+  animation: characterBob 2.8s ease-in-out infinite;
+}
+
+.animate-char-bob-2 {
+  animation: characterBob 2.4s ease-in-out infinite 0.4s;
+}
+
+/* Smug Attitude & Super-Innocent Animations */
+@keyframes innocentHandReach {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translateY(-7px) rotate(-4deg) scale(1.06);
+  }
+}
+
+@keyframes smugFingerWag {
+  0%, 100% {
+    transform: rotate(-16deg) translateY(0);
+  }
+  50% {
+    transform: rotate(14deg) translateY(-3px);
+  }
+}
+
+@keyframes dismissivePalm {
+  0%, 100% {
+    transform: translateY(0) rotate(-4deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(6deg);
+  }
+}
+
+.animate-innocent-hand {
+  transform-box: fill-box;
+  transform-origin: 20% 80%;
+  animation: innocentHandReach 1.8s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-smug-finger {
+  transform-box: fill-box;
+  transform-origin: 50% 90%;
+  animation: smugFingerWag 0.75s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-smug-palm {
+  transform-box: fill-box;
+  transform-origin: 50% 90%;
+  animation: dismissivePalm 1.3s ease-in-out infinite;
+  will-change: transform;
+}
